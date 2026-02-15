@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crachá de Emergência - Versão Final</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root { --vermelho: #d32f2f; }
+        body { font-family: sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .form { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 400px; width: 100%; margin-bottom: 20px; }
+        input { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; margin-top: 10px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; background: var(--vermelho); color: #fff; }
+        
+        /* Layout do Crachá */
+        #cracha { 
+            width: 500px; height: 280px; background: #fff; border: 2px solid #000; border-radius: 12px; 
+            display: flex; flex-direction: column; overflow: hidden; position: relative;
+        }
+        .header { background: var(--vermelho); color: #fff; text-align: center; padding: 10px; font-weight: bold; }
+        .corpo { display: flex; flex: 1; align-items: center; padding: 10px; }
+        #qrcode { width: 150px; height: 150px; background: #eee; display: flex; align-items: center; justify-content: center; }
+        .dados { flex: 1; padding-left: 20px; }
+        .dados p { margin: 3px 0; font-size: 13px; }
+        .dados strong { display: block; font-size: 15px; text-transform: uppercase; }
+
+        @media print {
+            .form, button { display: none !important; }
+            body { background: #fff; }
+            #cracha { border: 1px solid #000; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form">
+        <h3>Dados de Emergência</h3>
+        <input type="text" id="nome" placeholder="Nome Completo">
+        <input type="text" id="sangue" placeholder="Tipo Sanguíneo">
+        <input type="text" id="c1" placeholder="Contato 1 (Nome e Tel)">
+        <input type="text" id="c2" placeholder="Contato 2 (Nome e Tel)">
+        <input type="text" id="obs" placeholder="Alergias/Observações">
+        <button onclick="gerar()">GERAR QR CODE</button>
+        <button style="background: #333;" onclick="window.print()">IMPRIMIR</button>
+    </div>
+
+    <div id="cracha">
+        <div class="header">EMERGÊNCIA / EMERGENCY</div>
+        <div class="corpo">
+            <div id="qrcode">
+                <small style="color: gray; text-align: center;">QR Code aparecerá aqui</small>
+            </div>
+            <div class="dados">
+                <p>NOME: <strong id="out-nome">---</strong></p>
+                <p>SANGUE: <strong id="out-sangue">---</strong></p>
+                <p>CONTATO 1: <strong id="out-c1">---</strong></p>
+                <p>CONTATO 2: <strong id="out-c2">---</strong></p>
+                <p>OBS: <strong id="out-obs">---</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function gerar() {
+            const nome = document.getElementById('nome').value;
+            const sangue = document.getElementById('sangue').value;
+            const c1 = document.getElementById('c1').value;
+            const c2 = document.getElementById('c2').value;
+            const obs = document.getElementById('obs').value;
+
+            // Atualiza o texto
+            document.getElementById('out-nome').innerText = nome || "---";
+            document.getElementById('out-sangue').innerText = sangue || "---";
+            document.getElementById('out-c1').innerText = c1 || "---";
+            document.getElementById('out-c2').innerText = c2 || "---";
+            document.getElementById('out-obs').innerText = obs || "---";
+
+            // Limpa o QR Code anterior
+            const qrDiv = document.getElementById("qrcode");
+            qrDiv.innerHTML = "";
+
+            // Gera o QR Code
+            if (typeof QRCode !== "undefined") {
+                new QRCode(qrDiv, {
+                    text: `SOS: ${nome}\nSangue: ${sangue}\nC1: ${c1}\nC2: ${c2}\nObs: ${obs}`,
+                    width: 150,
+                    height: 150
+                });
+            } else {
+                alert("Erro: A biblioteca de QR Code ainda está carregando ou você está sem internet.");
+            }
+        }
+    </script>
+</body>
+</html>
