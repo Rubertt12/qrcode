@@ -1,0 +1,118 @@
+:root {
+    --vermelho: #e63946;
+    --azul-escuro: #1d3557;
+    --branco: #f1faee;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.row { display: flex; gap: 10px; }
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary { background: var(--vermelho); color: white; }
+.btn-secondary { background: var(--azul-escuro); color: white; }
+
+/* DESIGN DO CRACHÁ */
+#cracha-fundo {
+    width: 550px;
+    height: 320px;
+    background: white;
+    border: 3px solid #000;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.faixa-topo {
+    background: var(--vermelho);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.conteudo-cracha {
+    display: flex;
+    flex: 1;
+    padding: 15px;
+    align-items: center;
+}
+
+#qrcode-container {
+    width: 180px;
+    padding: 10px;
+    border-right: 2px dashed #ccc;
+}
+
+.dados-texto {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.dados-texto label {
+    font-size: 10px;
+    color: #666;
+    display: block;
+    margin-top: 8px;
+}
+
+.dados-texto strong {
+    font-size: 16px;
+    color: #000;
+}
+
+.contatos-list span {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* IMPRESSÃO */
+@media print {
+    .no-print { display: none !important; }
+    body { background: white; padding: 0; }
+    #cracha-fundo {
+        box-shadow: none;
+        position: absolute;
+        top: 0; left: 0;
+    }
+}
